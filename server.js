@@ -34,7 +34,18 @@ const server = http.createServer((request, response) => {
         });
         
     } else if (requestUrl === '/contact') {
-        response.write(`Hello from port ${requestUrl}.`);
+        fs.readFile('contact.html', (error, fileContent) => {
+            if(error){
+                response.writeHead(404);
+                response.write(`Error. File not found.`);
+            } else {
+                response.writeHead(200);
+                response.write(fileContent);
+            }
+
+            response.end();
+        });
+        
     } else {
         response.writeHead(404);
         response.write(`Error. ${requestUrl} page not found.`);
